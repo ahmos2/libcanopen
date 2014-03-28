@@ -48,7 +48,7 @@ class CANopen:
         Constructor for CANopen class. Optionally takes an interface 
         name for which to bind a socket to. Defaults to interface "can0"
         """
-        self.sock = libcanopen.can_socket_open(interface)
+        self.sock = libcanopen.can_socket_open_timeout(interface, 0)
         
     def open(self, interface):
         """
