@@ -18,6 +18,7 @@ from ctypes import *
 
 libcanopen = cdll.LoadLibrary('libcanopen.so')
 libc = cdll.LoadLibrary('libc.so.6')
+
     
 class CANFrame(Structure):
     _fields_ = [("can_id",  c_uint32),
@@ -28,17 +29,62 @@ class CANFrame(Structure):
     def __str__(self):
         data_str = " ".join(["%.2x" % (x,) for x in self.data])
         return "CAN Frame: ID=%.2x DLC=%.2x DATA=[%s]" % (self.can_id, self.can_dlc, data_str)
+
+class CANopenNMT(Structure):
+    _fields_ = [("cs", c_uint8),
+                ("id", c_uint8),
+                ("align", c_uint8 * 6)]
         
+class CANopenNMTNodeGuard(Structure):
+    _fields_ = [("state", c_uint8),
+                ("align", c_uint8 * 7)]
+
+class CANopenSDOInitiate(Structure):
+    _fields_ = [("cs", c_uint8, 3),
+                ("x", c_uint8, 1), # padding
+                ("n", c_uint8, 2),
+                ("e", c_uint8, 1),
+                ("s", c_uint8, 1)]
+
+class CANopenSDOSegment(Structure):
+    _fields_ = [("cs", c_uint8, 3),
+                ("t", c_uint8, 1),
+                ("n", c_uint8, 3),
+                ("c", c_uint8, 1)]
+
+class CANopenSDOGeneral(Structure):
+    _fields_ = [("cs", c_uint8, 3),
+                ("x", c_uint8, 5)]
+
+class CANopenSDOCommand(Union):
+    _fields_ = [("init", CANopenSDOInitiate),
+                ("segment", CANopenSDOSegment),
+                ("general", CANopenSDOGeneral),
+                ("data", c_uint8)]
+
+class CANopenSDO(Structure):
+    _fields_ = [("cmd", CANopenSDOCommand),
+                ("index_lsb", c_uint8),
+                ("index_msb", c_uint8),
+                ("subindex", c_uint8),
+                ("data", c_uint8 * 4)]
+
+class CANopenPayload(Union):
+    _fields_ = [("nmt_mc", CANopenNMT),
+                ("nmt_ng", CANopenNMTNodeGuard),
+                ("sdo",    CANopenSDO),
+                ("data",   c_uint8 * 8)]
+
 class CANopenFrame(Structure):
     _fields_ = [("rtr",           c_uint8),
                 ("function_code", c_uint8),
                 ("type",          c_uint8),
                 ("id",            c_uint32),
-                ("data",          c_uint8 * 8), # should be a union...
+                ("data",          CANopenPayload), # should be a union...
                 ("data_len",      c_uint8)]
 
     def __str__(self):
-        data_str = " ".join(["%.2x" % (x,) for x in self.data])    
+        data_str = " ".join(["%.2x" % (x,) for x in self.data.data])    
         return "CANopen Frame: RTR=%d FC=0x%.2x ID=0x%.2x [len=%d] %s" % (self.rtr, self.function_code, self.id, self.data_len, data_str)
 
 class CANopen:
@@ -102,6 +148,9 @@ class CANopen:
             raise Exception("CANopen Frame parse error")
         
         return canopen_frame
+
+    def send_frame(self, frame):
+        return libcanopen.canopen_frame_send(self.sock, byref(frame))
             
 
     #---------------------------------------------------------------------------
