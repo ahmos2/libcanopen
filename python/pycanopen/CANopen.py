@@ -40,21 +40,21 @@ class CANopenNMTNodeGuard(Structure):
                 ("align", c_uint8 * 7)]
 
 class CANopenSDOInitiate(Structure):
-    _fields_ = [("cs", c_uint8, 3),
-                ("x", c_uint8, 1), # padding
-                ("n", c_uint8, 2),
+    _fields_ = [("s", c_uint8, 1),
                 ("e", c_uint8, 1),
-                ("s", c_uint8, 1)]
+                ("n", c_uint8, 2),
+                ("x", c_uint8, 1), # padding
+                ("cs", c_uint8, 3)]
 
 class CANopenSDOSegment(Structure):
-    _fields_ = [("cs", c_uint8, 3),
-                ("t", c_uint8, 1),
+    _fields_ = [("c", c_uint8, 1),
                 ("n", c_uint8, 3),
-                ("c", c_uint8, 1)]
+                ("t", c_uint8, 1),
+                ("cs", c_uint8, 3)]
 
 class CANopenSDOGeneral(Structure):
-    _fields_ = [("cs", c_uint8, 3),
-                ("x", c_uint8, 5)]
+    _fields_ = [("x", c_uint8, 5),
+                ("cs", c_uint8, 3)]
 
 class CANopenSDOCommand(Union):
     _fields_ = [("init", CANopenSDOInitiate),
