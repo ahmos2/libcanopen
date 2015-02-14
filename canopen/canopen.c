@@ -258,7 +258,7 @@ canopen_frame_dump_short(canopen_frame_t *frame) // rename to analyze
                     printf("Command='%s'", CANOPEN_NMT_MC_CS_RESET_COM_STR);
                     break;
                 default:
-                    printf("Command=Unknown")
+                    printf("Command=Unknown");
             }
 
             break;
