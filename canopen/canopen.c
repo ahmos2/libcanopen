@@ -207,7 +207,8 @@ canopen_frame_dump_short(canopen_frame_t *frame) // rename to analyze
     if (frame->type == CANOPEN_FLAG_EXTENDED) // XXX flag!?!
     {
         printf("EXTENDED ");    
-        printf("Node ID=0x%.7X ", frame->id);    
+	printf("FC=0x%.1X ", frame->function_code);
+        printf("ID=0x%.7X ", frame->id);    
     }
     else
     {
@@ -257,7 +258,7 @@ canopen_frame_dump_short(canopen_frame_t *frame) // rename to analyze
                     printf("Command='%s'", CANOPEN_NMT_MC_CS_RESET_COM_STR);
                     break;
                 default:
-                    printf("Command=Unknown");
+                    printf("Command=Unknown")
             }
 
             break;
