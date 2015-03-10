@@ -124,6 +124,17 @@ class CANopen:
         else:
             raise Exception("CAN fram read error: socket not connected")
             
+    def write_can_frame(self, can_frame):
+        """
+        Low-level function: Write a CAN frame from socket.
+        """
+        if self.sock:
+            can_frame = CANFrame()
+            if libc.write(self.sock, byref(can_frame), c_int(16)) != 16:
+                raise Exception("CAN write read error")
+        else:
+            raise Exception("CAN frame write error: socket not connected")
+
     def parse_can_frame(self, can_frame):
         """
         Low level function: Parse a given CAN frame into CANopen frame
