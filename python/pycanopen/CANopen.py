@@ -129,7 +129,6 @@ class CANopen:
         Low-level function: Write a CAN frame from socket.
         """
         if self.sock:
-            can_frame = CANFrame()
             if libc.write(self.sock, byref(can_frame), c_int(16)) != 16:
                 raise Exception("CAN write read error")
         else:
