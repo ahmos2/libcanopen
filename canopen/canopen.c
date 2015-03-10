@@ -88,6 +88,7 @@ canopen_frame_parse(canopen_frame_t *canopen_frame, struct can_frame *can_frame)
     if (can_frame->can_id & CAN_EFF_FLAG)
     {
         canopen_frame->type = CANOPEN_FLAG_EXTENDED;
+        canopen_frame->function_code = (can_frame->can_id & 0x00000780U) >> 7;
         canopen_frame->id   = can_frame->can_id & CAN_EFF_MASK;
     }
     else
