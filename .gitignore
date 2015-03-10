@@ -3,6 +3,7 @@ Makefile.in
 bin/Makefile.in
 mbus/Makefile.in
 test/Makefile.in
+canopen/Makefile.in
 
 /INSTALL
 /aclocal.m4
@@ -57,3 +58,9 @@ bin/mbus-tcp-request-data-multi-reply
 bin/mbus-tcp-scan
 bin/mbus-tcp-scan-secondary
 bin/mbus-tcp-select-secondary
+bin/build/
+canopen/.deps/
+python/build
+
+#precompiled python
+*.pyc
