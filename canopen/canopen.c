@@ -615,7 +615,7 @@ canopen_frame_dump_short(canopen_frame_t *frame) // rename to analyze
                     }
                     break;
                 default:
-                    printf("[unknown cs(%d%)]",frame->payload.sdo.command & CANOPEN_SDO_CS_MASK);
+                    printf("[unknown cs(%d)]",frame->payload.sdo.command & CANOPEN_SDO_CS_MASK);
             }
 
             break;
