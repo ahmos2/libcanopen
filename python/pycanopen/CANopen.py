@@ -122,15 +122,15 @@ class CANopen:
                 raise Exception("CAN frame read error")
             return can_frame
         else:
-            raise Exception("CAN fram read error: socket not connected")
+            raise Exception("CAN frame read error: socket not connected")
             
     def write_can_frame(self, can_frame):
         """
-        Low-level function: Write a CAN frame from socket.
+        Low-level function: Write a CAN frame to socket.
         """
         if self.sock:
             if libc.write(self.sock, byref(can_frame), c_int(16)) != 16:
-                raise Exception("CAN write read error")
+                raise Exception("CAN frame write error")
         else:
             raise Exception("CAN frame write error: socket not connected")
 
