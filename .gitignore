@@ -58,6 +58,16 @@ bin/mbus-tcp-request-data-multi-reply
 bin/mbus-tcp-scan
 bin/mbus-tcp-scan-secondary
 bin/mbus-tcp-select-secondary
+bin/rs-canopen-ds401
+bin/rs-canopen-dump
+bin/rs-canopen-monitor
+bin/rs-canopen-nmt
+bin/rs-canopen-node-info
+bin/rs-canopen-pdo-download
+bin/rs-canopen-pdo-request
+bin/rs-canopen-pdo-upload
+bin/rs-canopen-sdo-download
+bin/rs-canopen-sdo-upload
 bin/build/
 canopen/.deps/
 python/build
