@@ -26,6 +26,10 @@ class CANFrame(Structure):
                 ("align",   c_uint8 * 3), # hardcoded alignment to match C struct
                 ("data",    c_uint8 * 8)]
 
+    def __eq__(self,other):
+        return self.__str__()==other.__str__()
+    def __ne__(self,other):
+        return not self.__eq__(other)
     def __str__(self):
         data_str = " ".join(["%.2x" % (x,) for x in self.data])
         return "CAN Frame: ID=%.2x DLC=%.2x DATA=[%s]" % (self.can_id, self.can_dlc, data_str)
@@ -83,6 +87,10 @@ class CANopenFrame(Structure):
                 ("data",          CANopenPayload), # should be a union...
                 ("data_len",      c_uint8)]
 
+    def __eq__(self,other):
+        return self.__str__()==other.__str__()
+    def __ne__(self,other):
+        return not self.__eq__(other)
     def __str__(self):
         data_str = " ".join(["%.2x" % (x,) for x in self.data.data])    
         return "CANopen Frame: RTR=%d FC=0x%.2x ID=0x%.2x [len=%d] %s" % (self.rtr, self.function_code, self.id, self.data_len, data_str)
